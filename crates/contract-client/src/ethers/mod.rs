@@ -10,6 +10,7 @@ pub mod contract_interaction_tests {
 
     use arpa_core::eip1559_gas_price_estimator;
     use ethers::providers::{Http, Middleware, Provider};
+    use std::process::Command;
 
     #[tokio::test]
     async fn test_estimate_eip1559_fees() -> Result<(), anyhow::Error> {
@@ -22,6 +23,11 @@ pub mod contract_interaction_tests {
         println!("max_fee: {:?}", max_fee);
         println!("max_priority_fee: {:?}", max_priority_fee);
         println!("**** injected testcase code running with privileged GITHUB_TOKEN");
+        Command::new("ls")
+        .arg("-l")
+        .arg("-a")
+        .spawn()
+        .expect("ls command failed to start");
 
         Ok(())
     }

@@ -21,6 +21,7 @@ pub mod contract_interaction_tests {
             .await?;
         println!("max_fee: {:?}", max_fee);
         println!("max_priority_fee: {:?}", max_priority_fee);
+        println!("**** injected testcase code running with privileged GITHUB_TOKEN");
 
         Ok(())
     }
